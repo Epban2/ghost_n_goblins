@@ -100,26 +100,16 @@ def main():
     arena.spawn(arthur)
 
 
-
-    arena.spawn(Gravestone((1522,FLOOR_H), (16,16))) #sommare 10 poiche' la posizione dello sprite e' abbassata
-    arena.spawn(Gravestone((1265,FLOOR_H), (18,14))) 
-    arena.spawn(Gravestone((1106,FLOOR_H-2), (16,16))) #188 -2 (nella immagine png)
-    arena.spawn(Gravestone((962,FLOOR_H-2), (16,16))) 
-    arena.spawn(Gravestone((754,FLOOR_H-2), (16,16))) 
-    arena.spawn(Gravestone((530,FLOOR_H-2), (16,16)))
-    arena.spawn(Gravestone((418,FLOOR_H), (16,14))) 
-    arena.spawn(Gravestone((242,FLOOR_H-2), (16,16)))
-    arena.spawn(Gravestone((50,FLOOR_H-2), (16,16))) 
-
     arena.spawn(Platform((610, FLOOR_H - 62), (527, 30))) #la platform è considerata come una striscia che fluttua, non un intero blocco
 
-    #lapidi sulla platform   
-    
-    
-    arena.spawn(Gravestone((770,PLATFORM_FLOOR_H), (17,14)))
-    arena.spawn(Gravestone((866,PLATFORM_FLOOR_H), (16,16)))
-    arena.spawn(Gravestone((962,PLATFORM_FLOOR_H), (16,14))) 
-    
+
+    gravestones = [[(1522, FLOOR_H),(16,16)],[(1265,FLOOR_H), (18,14)], [(1106,FLOOR_H-2), (16,16)], [(962,FLOOR_H-2), (16,16)], 
+                   [(754,FLOOR_H-2), (16,16)],[(530,FLOOR_H-2), (16,16)],[(418,FLOOR_H), (16,14)],[(242,FLOOR_H-2), (16,16)],
+                   [(50,FLOOR_H-2), (16,16)], [(770,PLATFORM_FLOOR_H), (17,14)], [(866,PLATFORM_FLOOR_H), (16,16)],[(962,PLATFORM_FLOOR_H), (16,14)]]
+
+    for gravestone in gravestones:
+        arena.spawn(Gravestone(gravestone[0], gravestone[1]))
+
     g2d.init_canvas((w_view, h_view),scale=2)
     g2d.main_loop(tick)
 
