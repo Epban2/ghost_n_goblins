@@ -24,7 +24,7 @@ def check_obstacle_collision(a):
         # controllo se si trova sopra gravestone o platform  ed è in caduta (dopo salto), (6 sono i pixel di tolleranza dovuti al tick)
         if abs(feet_y - top_y) < 6 and arthur._falling_speed >= 0:
             arthur._isfloating = True
-            arthur.y = top_y - ah # imposto arthur suil tetto
+            arthur._y = top_y - ah # imposto arthur suil tetto
             arthur._jumping = False
             arthur._falling_speed = 0 #azzero la gravità
             arthur._lateral_collision = False
