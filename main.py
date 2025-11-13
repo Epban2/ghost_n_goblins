@@ -119,8 +119,7 @@ def main():
         [(866, PLATFORM_FLOOR_H), (16, 16)], [(962, PLATFORM_FLOOR_H), (16, 14)]
     ]
 
-    for g in gravestones:
-        arena.spawn(Gravestone(g[0], g[1]))
+    [arena.spawn(Gravestone(g[0], g[1])) for g in gravestones] #List comprehension che itera le lapidi e aggiunge all'arena
 
     g2d.init_canvas((w_view, h_view), scale=2)
     g2d.main_loop(tick)
