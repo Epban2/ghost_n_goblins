@@ -5,7 +5,6 @@ class Gravestone(Actor):
         self._x, self._y = pos
         self._w, self._h = size
 
- 
     def move(self, arena: Arena):
         pass
 

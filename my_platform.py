@@ -1,14 +1,10 @@
 from actor import Actor, Arena, Point
 
-from global_variables import FLOOR_H
-
-
 class Platform(Actor):
     def __init__(self, pos, size):
         self._x, self._y = pos
         self._w, self._h = size
 
- 
     def move(self, arena: Arena):
         pass
 
