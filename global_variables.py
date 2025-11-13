@@ -4,7 +4,7 @@ GRAVITY = 0.3 #Velocita' di caduta
 
 
 online_bg, online_sprites = "https://fondinfo.github.io/sprites/ghosts-goblins-bg.png", "https://fondinfo.github.io/sprites/ghosts-goblins.png"
-offline_bg, offline_sprites = "ghost_n_goblins\public\ghosts-goblins-bg.png", "ghost_n_goblins\public\ghosts-goblins.png"
+offline_bg, offline_sprites = "ghost_n_goblins/public/ghosts-goblins-bg.png", "ghost_n_goblins/public/ghosts-goblins.png"
 
 
 ## variabili
