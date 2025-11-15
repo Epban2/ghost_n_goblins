@@ -34,13 +34,6 @@ class Zombie(Actor):
     # -----------------------------------------------------
 
     def move(self, arena: Arena):
-
-        '''
-        for other in arena.collisions():
-            if isinstance(other, Ball):
-                self.hit(arena)
-        '''
-
         # Spawn
         if self._isspawning:
             self._spawning_counter += 1

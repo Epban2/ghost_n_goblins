@@ -10,8 +10,11 @@ import g2d
 from actor import Arena, check_collision
 from arthur import Arthur
 from gravestone import Gravestone
-from my_platform import Platform
+from platform import Platform
 from zombie import Zombie
+from torch import Torch
+from flame import Flame
+
 from global_variables import (
     ARENA_W, ARENA_H, x_view, y_view, w_view, h_view,
     FLOOR_H, PLATFORM_FLOOR_H,
@@ -82,15 +85,21 @@ def tick():
 
     # Ciclo sugli attori
     for a in arena.actors():
-        if not isinstance(a, (Platform, Gravestone, Arthur)):
+        if not isinstance(a, (Platform, Gravestone, Arthur, Torch, Flame)):
             actor_x, actor_y = a.pos()
             screen_actor_pos = (actor_x - x_view, actor_y - y_view)
-            g2d.draw_image("https://fondinfo.github.io/sprites/ghosts-goblins.png",
+            g2d.draw_image(online_sprites,
                            screen_actor_pos, a.sprite(), a.sprite_size())
 
         # Collisione con gli ostacoli (Gravestone o Platform)
         if isinstance(a, (Gravestone, Platform)):
             check_obstacle_collision(a)
+        
+        if isinstance(a, (Torch, Flame)):
+            actor_x, actor_y = a.pos()
+            screen_actor_pos = (actor_x - x_view, actor_y - y_view)
+            g2d.draw_image(online_sprites, screen_actor_pos, a.sprite(), a.sprite_size())
+
 
     arena.tick(g2d.current_keys())
 

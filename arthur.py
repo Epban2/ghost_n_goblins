@@ -1,4 +1,5 @@
 from actor import Actor, Arena, Point
+from torch import Torch
 from global_variables import FLOOR_H, GRAVITY
 
 
@@ -18,6 +19,7 @@ class Arthur(Actor):
         self._watching = "right"
         self._walking_counter = 0
         self._jumping_counter = 0
+        self._torch_cooldown = 0
 
         # Sprite e dimensioni
         self._idle_rigth_sprite = (6, 43)
@@ -66,6 +68,12 @@ class Arthur(Actor):
                 self._watching = "right"
                 self._walking = True
 
+        # Lancio fiaccola
+        if "Spacebar" in keys and self._torch_cooldown == 0:
+            direction = self._watching
+            arena.spawn(Torch((self._x), direction))
+            self._torch_cooldown = 10
+
         # Gravità
         if self._isfloating and not self._jumping:
             self._falling_speed = 0 # Se appoggiato imposto a 0 la gravità
@@ -79,6 +87,9 @@ class Arthur(Actor):
             self._y = FLOOR_H
             self._falling_speed = 0
             self._jumping = False # Atterrato
+
+        if self._torch_cooldown > 0:
+            self._torch_cooldown -= 1
 
         # Limiti del canvas
         aw, ah = arena.size()
