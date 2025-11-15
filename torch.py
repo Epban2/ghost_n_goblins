@@ -1,24 +1,23 @@
-from actor import Actor, Arena, Point
+from actor import Actor, Arena, Point, check_collision
 from flame import Flame
-from actor import check_collision
-from global_variables import GRAVITY, FLOOR_H
+from global_variables import TORCH_GRAVITY, FLOOR_H
 
 class Torch(Actor):
     def __init__(self, pos, direction):
         self._x, self._y = pos
-        self._w, self._h = 12, 12
+        self._w, self._h = 15, 15
         
         self._falling_speed = 0
         self._speed_x = 3 if direction == "right" else -3
         self._direction = direction
 
         self._frames = [
-            (210, 443),
-            (230, 443),
-            (250, 443),
-            (270, 443),
+            (19, 400),
+            (39, 400),
+            (59, 400),
+            (79, 400),
         ]
-        self._frame_size = (16, 16)
+        self._frame_size = (15, 15)
 
         self._frame_counter = 0
         self._animation_speed = 5  # cambia frame ogni 5 tick
@@ -35,32 +34,35 @@ class Torch(Actor):
         self._x += self._speed_x
 
         # Gravità
-        self._falling_speed += GRAVITY
+        self._falling_speed += TORCH_GRAVITY
         self._y += self._falling_speed
 
-        # Rimbalzo sul terreno → fiamma
-        if self._y >= FLOOR_H:
-            self._y = FLOOR_H
-            arena.spawn(Flame((self._x, self._y)))
+        # Rimbalzo sul terreno → genera Flame
+        if self._y + self._h >= 180:
+            # self._y = FLOOR_H - self._h  # correzione posizione
+            arena.spawn(Flame((self._x, 180)))  # la fiamma nasce al suolo
             arena.kill(self)
             return
+
 
         # Collisioni
         for other in arena.actors():
             if other is self:
                 continue
 
-            if other.__class__.__name__ == "Zombie":
+            # Se colpisce uno zombie → uccidi lo zombie e la fiaccola scompare (solo il primo zombie)
+            if other.__class__.__name__ == "Zombie" and check_collision(self, other):
                 other.hit(arena)
                 arena.kill(self)
                 return
 
+            # Se colpisce un ostacolo (lapide o piattaforma) → genera Flame e scompare
             if type(other).__name__ in ("Gravestone", "Platform") and check_collision(self, other):
                 arena.spawn(Flame((self._x, self._y)))
                 arena.kill(self)
                 return
 
-        # Limiti arena
+        # Limiti arena: se esce dallo schermo la fiaccola viene rimossa
         aw, ah = arena.size()
         if self._x < 0 or self._x > aw:
             arena.kill(self)
@@ -76,10 +78,6 @@ class Torch(Actor):
 
     def size(self) -> Point:
         return self._w, self._h
-
-    def sprite(self) -> Point:
-        index = self._frame_counter // self._animation_speed
-        return self._frames[index]
 
     def sprite_size(self) -> Point:
         return self._frame_size

@@ -3,20 +3,18 @@ from actor import Actor, Arena, Point, check_collision
 class Flame(Actor):
     def __init__(self, pos):
         self._x, self._y = pos
-        self._w, self._h = 20, 20
+        self._w, self._h = 15, 15
 
-        self._lifetime = 40   # durata prima di scomparire
+        # Durata della fiamma (spec: 60 frame)
+        self._lifetime = 60
 
-        # animazione (placeholder)
         self._frames = [
-            (820, 40),
-            (840, 40),
-            (860, 40),
-            (880, 40),
-            (900, 40),
-            (920, 40)
+            (210, 443),
+            (229, 450),
+            (210, 443),
+            (229, 450)
         ]
-        self._frame_size = (22, 22)
+        self._frame_size = (15, 15)
 
         self._frame_counter = 0
         self._animation_speed = 4
@@ -38,7 +36,7 @@ class Flame(Actor):
             if other is self:
                 continue
 
-            # se collide ed è uno zombie → uccidilo
+            # se collide ed è uno zombie → uccidilo (la fiamma uccide tutti gli zombie che tocca)
             if other.__class__.__name__ == "Zombie":
                 if check_collision(self, other):
                     other.hit(arena)
@@ -46,7 +44,7 @@ class Flame(Actor):
     # ---------------------------------------------------------
 
     def hit(self, arena: Arena):
-        return # La fiamma non viene distrutta quando viene colpita.
+        return  # La fiamma non viene distrutta quando viene colpita.
 
     def pos(self) -> Point:
         return self._x, self._y

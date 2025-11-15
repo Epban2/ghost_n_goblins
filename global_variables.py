@@ -1,6 +1,7 @@
 ARENA_W, ARENA_H = 3584,240
 FLOOR_H, PLATFORM_FLOOR_H = 165, 80
-GRAVITY = 0.3 # Velocita' di caduta
+GRAVITY = 0.3
+TORCH_GRAVITY = 0.1
 
 online_bg, online_sprites = "https://fondinfo.github.io/sprites/ghosts-goblins-bg.png", "https://fondinfo.github.io/sprites/ghosts-goblins.png"
 offline_bg, offline_sprites = "ghost_n_goblins/public/ghosts-goblins-bg.png", "ghost_n_goblins/public/ghosts-goblins.png"

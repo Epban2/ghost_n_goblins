@@ -71,7 +71,7 @@ class Arthur(Actor):
         # Lancio fiaccola
         if "Spacebar" in keys and self._torch_cooldown == 0:
             direction = self._watching
-            arena.spawn(Torch((self._x), direction))
+            arena.spawn(Torch((self._x, self._y), direction))
             self._torch_cooldown = 10
 
         # Gravità
