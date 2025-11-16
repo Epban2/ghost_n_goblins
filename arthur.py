@@ -38,6 +38,11 @@ class Arthur(Actor):
         self._jump_left_sprite = [(336, 29), (305, 29)]
         self._jump_size = [(32, 27), (27, 26)]
 
+        self._fall_rigth_sprite = (180, 29)
+        self._fall_left_sprite = (306, 29)
+        self._fall_size = (27, 26)
+
+
     # -----------------------------------------------------
 
     def move(self, arena: Arena):
@@ -111,8 +116,11 @@ class Arthur(Actor):
 
     def sprite(self) -> Point:
         sprite = None
+
         if self._watching == "right":
-            if self._jumping:
+            if self._jumping and self._falling_speed > 0:
+                return self._fall_rigth_sprite
+            elif self._jumping:
                 sprite = self._jump_rigth_sprite[self._jumping_counter // 5]
             elif self._walking:
                 sprite = self._walking_rigth_sprite[self._walking_counter // 4]
@@ -124,7 +132,9 @@ class Arthur(Actor):
                 sprite = self._idle_rigth_sprite
                 self._walking_counter = 0
         else:
-            if self._jumping:
+            if self._jumping and self._falling_speed > 0:
+                return self._fall_left_sprite
+            elif self._jumping:
                 sprite = self._jump_left_sprite[self._jumping_counter // 5]
             elif self._walking:
                 sprite = self._walking_left_sprite[self._walking_counter // 4]
@@ -144,7 +154,9 @@ class Arthur(Actor):
     # -----------------------------------------------------
 
     def sprite_size(self) -> Point:
-        if self._jumping:
+        if self._jumping and self._falling_speed > 0:
+            return self._fall_size
+        elif self._jumping:
             return self._jump_size[self._jumping_counter // 5]
         elif self._walking:
             return self._walking_size[self._walking_counter // 4]

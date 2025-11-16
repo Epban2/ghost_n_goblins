@@ -18,7 +18,7 @@ from flame import Flame
 from global_variables import (
     ARENA_W, ARENA_H, x_view, y_view, w_view, h_view,
     FLOOR_H, PLATFORM_FLOOR_H,
-    online_bg, online_sprites, offline_bg, offline_sprites
+    online_bg, online_sprites
 )
 
 

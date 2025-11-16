@@ -1,6 +1,6 @@
 from actor import Actor, Arena, Point, check_collision
 from flame import Flame
-from global_variables import TORCH_GRAVITY, FLOOR_H
+from global_variables import TORCH_GRAVITY, GROUND_H
 
 class Torch(Actor):
     def __init__(self, pos, direction):
@@ -12,11 +12,12 @@ class Torch(Actor):
         self._direction = direction
 
         self._frames = [
-            (19, 400),
-            (39, 400),
-            (59, 400),
-            (79, 400),
+            (19, 399),
+            (39, 399),
+            (59, 399),
+            (79, 399)
         ]
+
         self._frame_size = (15, 15)
 
         self._frame_counter = 0
@@ -38,9 +39,8 @@ class Torch(Actor):
         self._y += self._falling_speed
 
         # Rimbalzo sul terreno → genera Flame
-        if self._y + self._h >= 180:
-            # self._y = FLOOR_H - self._h  # correzione posizione
-            arena.spawn(Flame((self._x, 180)))  # la fiamma nasce al suolo
+        if self._y >= GROUND_H:
+            arena.spawn(Flame((self._x, GROUND_H)))  # la fiamma nasce al suolo
             arena.kill(self)
             return
 
