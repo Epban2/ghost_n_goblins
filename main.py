@@ -99,7 +99,7 @@ def tick():
         # Collisione con gli ostacoli (Gravestone o Platform)
         if isinstance(a, (Gravestone, Platform)):
             check_obstacle_collision(a)
-        
+            
         if isinstance(a, (Torch, Flame)):
             actor_x, actor_y = a.pos()
             screen_actor_pos = (actor_x - x_view, actor_y - y_view)
@@ -117,13 +117,16 @@ def main():
     global arena, arthur
 
     arena = Arena((ARENA_W, ARENA_H))
-    arthur = Arthur((900, FLOOR_H))
+    arthur = Arthur((1650, 50))
     arena.spawn(arthur)
 
-    # Platform fluttuante
-    arena.spawn(Platform((610, FLOOR_H - 62), (527, 30)))
+    #platform e lapidi (coordinate)
+    platforms = [
+        [(610, FLOOR_H - 62), (527, 30)], [(1699, FLOOR_H), (128,-50)], 
+        [(1954, FLOOR_H), (32,-47)], [(2018, FLOOR_H), (32,-43)], 
+        [(2450, FLOOR_H), (32,-42)], [(2706, FLOOR_H), (32,-42)]
+    ]
 
-    # Lapidi (pos, size)
     gravestones = [
         [(1522, FLOOR_H), (16, 16)], [(1265, FLOOR_H), (18, 14)],
         [(1106, FLOOR_H - 2), (16, 16)], [(962, FLOOR_H - 2), (16, 16)],
@@ -132,10 +135,11 @@ def main():
         [(50, FLOOR_H - 2), (16, 16)], [(770, PLATFORM_FLOOR_H), (17, 14)],
         [(866, PLATFORM_FLOOR_H), (16, 16)], [(962, PLATFORM_FLOOR_H), (16, 14)]
     ]
-
+    
+    [arena.spawn(Platform(p[0], p[1])) for p in platforms]   
     [arena.spawn(Gravestone(g[0], g[1])) for g in gravestones] #List comprehension che itera le lapidi e aggiunge all'arena
 
-    g2d.init_canvas((w_view, h_view), scale=2)
+    g2d.init_canvas((w_view, h_view), scale=2) #scale 2 aumenta lo "zoom"
     g2d.main_loop(tick)
 
 
