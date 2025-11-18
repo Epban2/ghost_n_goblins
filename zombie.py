@@ -9,7 +9,7 @@ class Zombie(Actor):
         self._direction = direction
 
         self._w, self._h = 20, 20
-        self._speed = -1.5 if direction == "left" else 1.5
+        self._speed = -0.8 if direction == "left" else 0.8
         self._distance = randint(150, 300)
         self._steps_done = 0 # Distanza percorsa
         self._falling_speed = 0 # Gravità
