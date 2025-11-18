@@ -9,7 +9,7 @@ class Platform(Actor):
         pass
 
     def hit(self, arena: Arena):
-        arena.kill(self)
+        pass
 
     def pos(self) -> Point:
         return self._x, self._y
