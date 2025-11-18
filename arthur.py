@@ -47,11 +47,10 @@ class Arthur(Actor):
     # -----------------------------------------------------
 
     def move(self, arena: Arena):
-        # Controllo se dve terminare il gioco
         # for actor in arena.actors():
         #     if isinstance(actor, Zombie):
         #         if check_collision(self, actor):
-        #             self.hit(arena) #END GAME
+        #             self.hit(arena) # Finisce il gioco
 
         #
         # Azzera tutti i flag e controlla i tasti
