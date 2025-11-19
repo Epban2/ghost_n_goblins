@@ -75,8 +75,9 @@ def tick():
     if arthur in arena.actors(): #se arthur è stato ucciso non lo disegniamo
         g2d.draw_image(online_sprites, screen_pos, arthur.sprite(), arthur.sprite_size())
     else: #GAME OVER
-        g2d.set_color((200,50,60))
-        g2d.draw_text("GAME OVER",(x_view/2, ARENA_H/2),50 )
+        g2d.set_color((255,0,0))
+        g2d.draw_text("GAME OVER", (w_view//2, h_view//2), 50)
+
 
     # Spawn casuale dei zombie
     if randrange(50) == 1:
@@ -118,7 +119,7 @@ def main():
     arena = Arena((ARENA_W, ARENA_H))
     
     # arthur = Arthur((1650, 50))#vicino al buco
-    arthur = Arthur((700, 50))#sopra la platform
+    arthur = Arthur((700, 100))#sopra la platform
 
     arena.spawn(arthur)
 
