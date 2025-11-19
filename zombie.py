@@ -48,22 +48,6 @@ class Zombie(Actor):
                 self._x += self._speed
                 self._steps_done += abs(self._speed)
 
-                # Gravità
-                self._falling_speed += GRAVITY
-                self._y += self._falling_speed
-
-                '''
-                if self._y >= FLOOR_H:
-                    self._y = FLOOR_H
-                    self._falling_speed = 0
-                '''
-                floor = .get_floor_height(self)
-
-                if floor is not None and self._y >= floor:
-                    self._y = floor
-                    self._falling_speed = 0
-
-
                 aw, ah = arena.size()
                 self._x = min(max(self._x, 0), aw - self._w)
                 self._y = min(max(self._y, 0), ah - self._h)
