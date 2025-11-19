@@ -8,3 +8,7 @@ offline_bg, offline_sprites = "ghost_n_goblins/public/ghosts-goblins-bg.png", "g
 
 x_view, y_view = 0, 0 # Posizione di partenza
 w_view, h_view = 600, ARENA_H  #Dimensione del canvas view
+
+
+#Coordinate dei buchi (acqua), (x,width)
+holes = [ (1699, 128), (1954,32), (2018,32), (2450, 32), (2706, 32)]

@@ -1,6 +1,6 @@
-from actor import Actor, Arena, Point
+from actor import Actor, Arena, Point, check_collision
 from torch import Torch
-from global_variables import FLOOR_H, GRAVITY
+from global_variables import FLOOR_H, GRAVITY, holes
 from zombie import Zombie
 
 
@@ -18,6 +18,7 @@ class Arthur(Actor):
         self._walking = False
         self._crouching = False
         self._jumping = False
+        self._is_falling = False
         self._watching = "right"
         self._walking_counter = 0
         self._jumping_counter = 0
@@ -48,12 +49,14 @@ class Arthur(Actor):
     # -----------------------------------------------------
 
     def move(self, arena: Arena):
-        # for actor in arena.actors():
-        #     if isinstance(actor, Zombie):
-        #         if check_collision(self, actor):
-        #             self.hit(arena) # Finisce il gioco
-
-        #
+        # Controllo se dve terminare il gioco
+        for actor in arena.actors():
+            if isinstance(actor, Zombie):
+                if check_collision(self, actor):
+                    self.hit(arena) #END GAME
+        if self._y>=220: #se è caduto nell'acqua,  muore
+            self.hit(arena)
+        
         # Azzera tutti i flag e controlla i tasti
         self._walking = False
         self._crouching = False
@@ -96,17 +99,13 @@ class Arthur(Actor):
         self._y += self._falling_speed
 
 
-        '''
-            if self._y >= FLOOR_H:
-                self._y = FLOOR_H
-                self._falling_speed = 0
-                self._jumping = False
-        '''
         # Pavimento
-        floor = .get_floor_height(self)
+        for hole in holes:
+            if (hole[0] < self._x + self._w*2 and self._x < hole[0] + hole[1]) and self._y <= FLOOR_H + 3: #controllo se si trova in mezzo ai buchi
+                self._is_falling = True                            #h+3 è la tolleranza di y
 
-        if floor is not None and self._y >= floor:
-            self._y = floor
+        if self._y >= FLOOR_H and not self._is_falling: #se non sta cadendo nel buco ma sul terreno:
+            self._y = FLOOR_H
             self._falling_speed = 0
             self._jumping = False
 
@@ -122,6 +121,7 @@ class Arthur(Actor):
 
     def hit(self, arena: Arena):
         arena.kill(self)
+
 
     def pos(self) -> Point:
         return self._x, self._y

@@ -98,10 +98,11 @@ def tick():
         g2d.draw_text("GAME OVER",(x_view / 2, ARENA_H / 2), 50)
 
     # Spawn casuale dei zombie
-    if randrange(50) == 1:
+    if randrange(150) == 1:
         spawn_x = arthur._x + randint(-200, 200)
         direction = "left" if spawn_x >= arthur._x else "right" # Direzione zombie in base alla pos di Arthur
         arena.spawn(Zombie(spawn_x, direction))
+
 
     # Reset flag
     arthur._lateral_collision = False
@@ -170,7 +171,11 @@ def main():
     global arena, arthur
 
     arena = Arena((ARENA_W, ARENA_H))
-    arthur = Arthur((1600, FLOOR_H))
+    
+    arthur = Arthur((1650, 50))#vicino al buco
+    # arthur = Arthur((700, 100))#sopra la platform
+    # arthur = Arthur((1870, 50))#isola in mezzo ai buchi
+
     arena.spawn(arthur)
 
     # Coordinate Platform e Lapidi
