@@ -22,21 +22,29 @@ from global_variables import (
     online_bg, online_sprites
 )
 
-# flag per indicare che Arthur sta sopra un buco e quindi
-# bisogna ignorare le piattaforme sotto di lui
-ignore_platforms_under = False
-
 
 # --------------------------------------------------------
 # FUNZIONI DI SUPPORTO
 # --------------------------------------------------------
+def get_floor_height(actor):
+    ax, ay = actor.pos()
+    aw, ah = actor.size()
+
+    floor = FLOOR_H  # pavimento di default
+
+    for h in arena.actors():
+        if isinstance(h, Hole):
+            hx, hy = h.pos()
+            hw, hh = h.size()
+
+            # Se l'attore è sopra il buco
+            if ax + aw > hx and ax < hx + hw:
+                # allora non ha pavimento!
+                return None  # caduta libera
+
+    return floor
 
 def check_obstacle_collision(a):
-    global ignore_platforms_under
-    if ignore_platforms_under:
-        # Arthur è sopra un buco: non considerare collisioni con le piattaforme
-        return
-    
     ax, ay, aw, ah = arthur.pos() + arthur.size()
     gx, gy, gw, gh = a.pos() + a.size()
 
@@ -65,7 +73,7 @@ def check_obstacle_collision(a):
 # --------------------------------------------------------
 
 def tick():
-    global x_view, y_view, ignore_platforms_under
+    global x_view, y_view
 
     g2d.clear_canvas()
     g2d.draw_image(online_bg, pos=(0, 0), clip_pos=(x_view + 2, y_view + 10), clip_size=(w_view, h_view))
@@ -113,7 +121,6 @@ def tick():
             if ax + aw > hx and ax < hx + hw:      # orizzontalmente
                 if ay + ah <= hy:                 # piedi sopra l'apertura
                     arthur_over_hole = True
-
             # Zombie
             for z in arena.actors():
                 if isinstance(z, Zombie):
@@ -129,9 +136,6 @@ def tick():
     if arthur_over_hole:
         arthur._isfloating = False
         arthur._jumping = False
-        ignore_platforms_under = True
-    else:
-        ignore_platforms_under = False
 
 
     # Ciclo sugli attori
@@ -143,7 +147,7 @@ def tick():
                            screen_actor_pos, a.sprite(), a.sprite_size())
 
         # Collisione con gli ostacoli (Gravestone o Platform)
-        if isinstance(a, Platform) and not isinstance(a, Hole):
+        if isinstance(a, Platform):
             check_obstacle_collision(a)
 
         if isinstance(a, Gravestone):

@@ -1,4 +1,4 @@
-from actor import Actor, Arena, Point, check_collision
+from actor import Actor, Arena, Point
 from torch import Torch
 from global_variables import FLOOR_H, GRAVITY
 from zombie import Zombie
@@ -10,6 +10,7 @@ class Arthur(Actor):
         self._w, self._h = 20, 20
         self._speed = 3
         self._falling_speed = 0 # Gravità
+        self.over_hole = False
 
         # Flag e contatori
         self._lateral_collision = False # True se collide con ostacoli (Gravestone o Zombie)
@@ -94,11 +95,20 @@ class Arthur(Actor):
 
         self._y += self._falling_speed
 
+
+        '''
+            if self._y >= FLOOR_H:
+                self._y = FLOOR_H
+                self._falling_speed = 0
+                self._jumping = False
+        '''
         # Pavimento
-        if self._y >= FLOOR_H:
-            self._y = FLOOR_H
+        floor = .get_floor_height(self)
+
+        if floor is not None and self._y >= floor:
+            self._y = floor
             self._falling_speed = 0
-            self._jumping = False # Atterrato
+            self._jumping = False
 
         if self._torch_cooldown > 0:
             self._torch_cooldown -= 1
