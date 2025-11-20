@@ -1,6 +1,6 @@
 from random import randint
 from actor import Actor, Arena, Point
-from global_variables import FLOOR_H, GRAVITY, holes
+from global_variables import FLOOR_H, GRAVITY, holes, zombie_hit_path, play_audio
 
 
 class Zombie(Actor):
@@ -81,6 +81,7 @@ class Zombie(Actor):
     # -----------------------------------------------------
 
     def hit(self, arena: Arena):
+        play_audio(zombie_hit_path)
         arena.kill(self)
 
     def pos(self) -> Point:

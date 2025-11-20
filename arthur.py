@@ -1,6 +1,6 @@
 from actor import Actor, Arena, Point, check_collision
 from torch import Torch
-from global_variables import FLOOR_H, GRAVITY, holes
+from global_variables import FLOOR_H, GRAVITY, holes, throw_torch_path, play_audio
 from zombie import Zombie
 
 
@@ -89,6 +89,8 @@ class Arthur(Actor):
             direction = self._watching
             arena.spawn(Torch((self._x, self._y), direction))
             self._torch_cooldown = 10
+            play_audio(throw_torch_path)
+            
 
         # Gravità
         if self._isfloating and not self._jumping:

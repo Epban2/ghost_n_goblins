@@ -18,10 +18,9 @@ from flame import Flame
 from global_variables import (
     ARENA_W, ARENA_H, x_view, y_view, w_view, h_view,
     FLOOR_H, PLATFORM_FLOOR_H,
-    online_bg, online_sprites, offline_bg, offline_sprites
+    online_bg, online_sprites, offline_bg, offline_sprites, audio_path, play_audio
 )
 
-audio_path = "public/game_music.mp3"
 
 
 # --------------------------------------------------------
@@ -51,9 +50,6 @@ def check_obstacle_collision(a):
             else:
                 arthur._lateral_collision = False  # Le piattaforme non bloccano lateralmente
 
-def play_music(path: str):
-    loop = True if path=="public/game_music.mp3" else False
-    g2d.play_audio(audio_path, loop)
 
 
 # --------------------------------------------------------
@@ -86,7 +82,7 @@ def tick():
         if audio_path == "public/game_music.mp3":
             g2d.pause_audio(audio_path)
             audio_path = "public/game_over.mp3"
-            play_music(audio_path)
+            play_audio(audio_path)
 
     # Spawn casuale dei zombie
     if randrange(100) == 1:
@@ -147,7 +143,7 @@ def main():
     [arena.spawn(Gravestone(g[0], g[1])) for g in gravestones] #List comprehension che itera le lapidi e aggiunge all'arena
 
     g2d.init_canvas((w_view, h_view), scale=2) #scale 2 aumenta lo "zoom"
-    play_music(audio_path)
+    play_audio(audio_path)
 
     g2d.main_loop(tick)
 
