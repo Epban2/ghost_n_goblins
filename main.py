@@ -76,7 +76,7 @@ def tick():
         g2d.draw_image(offline_sprites, screen_pos, arthur.sprite(), arthur.sprite_size())
     else: #GAME OVER
         g2d.set_color((255,0,0))
-        g2d.draw_text("GAME OVER", (w_view//2, h_view//2), 50)
+        g2d.draw_text("GAME OVER", (w_view//2, h_view//2), 40)
 
 
     # Spawn casuale dei zombie
