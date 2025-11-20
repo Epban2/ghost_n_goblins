@@ -6,7 +6,7 @@
 
 from tkinter import Tk, messagebox, simpledialog
 from urllib.request import urlopen
-import io, math, subprocess, sys
+import io, math, subprocess, sys, os
 try:
     import pygame as pg
 except:
@@ -94,9 +94,19 @@ def draw_rect(pos: Point, size: Point) -> None:
     blit_drawing_surface()
 
 def draw_text(text: str, center: Point, size: int) -> None:
-    fname, fonts = "segoeuisymbol", pg.font.get_fonts()
-    fname = fname if fname in fonts else "freesansbold"
-    font = pg.font.SysFont(fname, int(size))
+    # --- INIZIO MODIFICA ---
+    font_path = "public/font.ttf"
+    
+    # Se il file esiste, usa pg.font.Font (per i file)
+    if os.path.exists(font_path):
+        font = pg.font.Font(font_path, int(size))
+    else:
+        # Altrimenti usa la logica originale per i font di sistema
+        fname, fonts = "segoeuisymbol", pg.font.get_fonts()
+        fname = fname if fname in fonts else "freesansbold"
+        font = pg.font.SysFont(fname, int(size))
+    # --- FINE MODIFICA ---
+
     surface = font.render(text, True, _color)
     if len(_color) > 3 and _color[3] != 255:
         surface.set_alpha(_color[3])
