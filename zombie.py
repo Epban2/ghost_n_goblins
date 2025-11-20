@@ -1,6 +1,6 @@
 from random import randint
 from actor import Actor, Arena, Point
-from global_variables import FLOOR_H, GRAVITY
+from global_variables import FLOOR_H, GRAVITY, holes
 
 
 class Zombie(Actor):
@@ -18,6 +18,7 @@ class Zombie(Actor):
         self._iswalking = False
         self._isspawning = True # Generazione
         self._isdespawning = False
+        self._is_falling = False
         self._walking_counter = 0
         self._spawning_counter = 0
         self._despawning_counter = 0
@@ -64,6 +65,19 @@ class Zombie(Actor):
             # Se ha terminato le sue interazioni
             arena.kill(self)
 
+
+        # controllo se gli zombie cadono nell'acqua
+        for hole in holes:
+            if (hole[0] < self._x + self._w*2 and self._x < hole[0] + hole[1]) and self._y <= FLOOR_H + 3: #controllo se si trova in mezzo ai buchi
+                self._is_falling = True                            #h+3 è la tolleranza di y
+
+        if self._is_falling:
+            self._falling_speed += GRAVITY # Altrimenti se sta saltanto la applico
+            self._y += self._falling_speed
+
+        if self._y>=220: #se è caduto nell'acqua,  muore
+            self.hit(arena)
+       
     # -----------------------------------------------------
 
     def hit(self, arena: Arena):

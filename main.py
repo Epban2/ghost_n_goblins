@@ -80,10 +80,10 @@ def tick():
 
 
     # Spawn casuale dei zombie
-    if randrange(50) == 1:
+    if randrange(100) == 1:
         spawn_x = arthur._x + randint(-200, 200)
         direction = "left" if spawn_x >= arthur._x else "right" # Direzione zombie in base alla pos di Arthur
-        # arena.spawn(Zombie(spawn_x, direction))
+        arena.spawn(Zombie(spawn_x, direction))
 
     # Reset flag
     arthur._lateral_collision = False
