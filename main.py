@@ -18,7 +18,7 @@ from flame import Flame
 from global_variables import (
     ARENA_W, ARENA_H, x_view, y_view, w_view, h_view,
     FLOOR_H, PLATFORM_FLOOR_H,
-    online_bg, online_sprites
+    online_bg, online_sprites, offline_bg, offline_sprites
 )
 
 
@@ -58,7 +58,7 @@ def tick():
     global x_view, y_view
 
     g2d.clear_canvas()
-    g2d.draw_image(online_bg, pos=(0, 0), clip_pos=(x_view + 2, y_view + 10), clip_size=(w_view, h_view))
+    g2d.draw_image(offline_bg, pos=(0, 0), clip_pos=(x_view + 2, y_view + 10), clip_size=(w_view, h_view))
 
     # Vista centrata su Arthur
     bx, by = arthur.pos()
@@ -73,7 +73,7 @@ def tick():
     screen_pos = (bx - x_view, by - y_view)
     
     if arthur in arena.actors(): #se arthur è stato ucciso non lo disegniamo
-        g2d.draw_image(online_sprites, screen_pos, arthur.sprite(), arthur.sprite_size())
+        g2d.draw_image(offline_sprites, screen_pos, arthur.sprite(), arthur.sprite_size())
     else: #GAME OVER
         g2d.set_color((255,0,0))
         g2d.draw_text("GAME OVER", (w_view//2, h_view//2), 50)
@@ -83,7 +83,7 @@ def tick():
     if randrange(50) == 1:
         spawn_x = arthur._x + randint(-200, 200)
         direction = "left" if spawn_x >= arthur._x else "right" # Direzione zombie in base alla pos di Arthur
-        arena.spawn(Zombie(spawn_x, direction))
+        # arena.spawn(Zombie(spawn_x, direction))
 
     # Reset flag
     arthur._lateral_collision = False
@@ -94,7 +94,7 @@ def tick():
         if not isinstance(a, (Platform, Gravestone, Arthur, Torch, Flame)):
             actor_x, actor_y = a.pos()
             screen_actor_pos = (actor_x - x_view, actor_y - y_view)
-            g2d.draw_image(online_sprites,
+            g2d.draw_image(offline_sprites,
                            screen_actor_pos, a.sprite(), a.sprite_size())
 
         # Collisione con gli ostacoli (Gravestone o Platform)
@@ -103,7 +103,7 @@ def tick():
         if isinstance(a, (Torch, Flame)):
             actor_x, actor_y = a.pos()
             screen_actor_pos = (actor_x - x_view, actor_y - y_view)
-            g2d.draw_image(online_sprites, screen_actor_pos, a.sprite(), a.sprite_size())
+            g2d.draw_image(offline_sprites, screen_actor_pos, a.sprite(), a.sprite_size())
 
 
     arena.tick(g2d.current_keys())
@@ -120,6 +120,7 @@ def main():
     
     arthur = Arthur((1650, 50))#vicino al buco
     # arthur = Arthur((700, 100))#sopra la platform
+    # arthur = Arthur((1800, 50))#vicino al buco
 
     arena.spawn(arthur)
 

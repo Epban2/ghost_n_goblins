@@ -4,7 +4,7 @@ GRAVITY = 0.3
 TORCH_GRAVITY = 0.1
 
 online_bg, online_sprites = "https://fondinfo.github.io/sprites/ghosts-goblins-bg.png", "https://fondinfo.github.io/sprites/ghosts-goblins.png"
-offline_bg, offline_sprites = "ghost_n_goblins/public/ghosts-goblins-bg.png", "ghost_n_goblins/public/ghosts-goblins.png"
+offline_bg, offline_sprites = "public/ghosts-goblins-bg.png", "public/ghosts-goblins.png"
 
 x_view, y_view = 0, 0 # Posizione di partenza
 w_view, h_view = 600, ARENA_H  #Dimensione del canvas view
