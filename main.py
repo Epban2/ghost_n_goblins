@@ -21,6 +21,8 @@ from global_variables import (
     online_bg, online_sprites, offline_bg, offline_sprites
 )
 
+audio_path = "public/game_music.mp3"
+
 
 # --------------------------------------------------------
 # FUNZIONI DI SUPPORTO
@@ -49,13 +51,17 @@ def check_obstacle_collision(a):
             else:
                 arthur._lateral_collision = False  # Le piattaforme non bloccano lateralmente
 
+def play_music(path: str):
+    loop = True if path=="public/game_music.mp3" else False
+    g2d.play_audio(audio_path, loop)
+
 
 # --------------------------------------------------------
 # GAME LOOP
 # --------------------------------------------------------
 
 def tick():
-    global x_view, y_view
+    global x_view, y_view, audio_path
 
     g2d.clear_canvas()
     g2d.draw_image(offline_bg, pos=(0, 0), clip_pos=(x_view + 2, y_view + 10), clip_size=(w_view, h_view))
@@ -77,8 +83,10 @@ def tick():
     else: #GAME OVER
         g2d.set_color((255,0,0))
         g2d.draw_text("GAME OVER", (w_view//2, h_view//2), 60)
-    
-
+        if audio_path == "public/game_music.mp3":
+            g2d.pause_audio(audio_path)
+            audio_path = "public/game_over.mp3"
+            play_music(audio_path)
 
     # Spawn casuale dei zombie
     if randrange(100) == 1:
@@ -138,7 +146,10 @@ def main():
     [arena.spawn(Gravestone(g[0], g[1])) for g in gravestones] #List comprehension che itera le lapidi e aggiunge all'arena
 
     g2d.init_canvas((w_view, h_view), scale=2) #scale 2 aumenta lo "zoom"
+    play_music(audio_path)
+
     g2d.main_loop(tick)
+
 
 
 if __name__ == "__main__":
