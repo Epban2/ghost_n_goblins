@@ -1,13 +1,14 @@
-import unittest
+from unittest import TestCase
 from unittest.mock import Mock
 from platform import Platform
 from gravestone import Gravestone
 
 
-class TestObstacles(unittest.TestCase):
+class TestObstacles(TestCase):
 
     def test_platform_pos_size(self):
         p = Platform((10, 20), (30, 40))
+        # Verifico posizione e size della piattaforma
         self.assertEqual(p.pos(), (10, 20))
         self.assertEqual(p.size(), (30, 40))
 

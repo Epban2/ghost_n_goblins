@@ -1,10 +1,11 @@
-import unittest
+from unittest import TestCase
 from unittest.mock import Mock
 from flame import Flame
 from zombie import Zombie
+from global_variables import FLOOR_H
 
 
-class TestFlame(unittest.TestCase):
+class TestFlame(TestCase):
 
     def setUp(self):
         self.arena = Mock()
@@ -15,20 +16,17 @@ class TestFlame(unittest.TestCase):
         f._lifetime = 1
 
         f.move(self.arena)
-        self.arena.kill.assert_called_with(f)
+        self.arena.kill.assert_called_with(f) # Controllo che la torcia venga eliminata una volta finito il suo lifetime
 
     def test_flame_kills_zombies(self):
+        # Creo uno zombie vicino alla fiamma per forzare la collisione
         z = Zombie(100, "left")
         self.arena.actors.return_value = [z]
 
-        def always_hit(a, b): return True
-        from actor import check_collision as original
-        import actor
-        actor.check_collision = always_hit
+        z.hit = Mock() # Verifico metodo hit per uccidere lo zombie
 
-        f = Flame((100, 100))
+        # Creo una fiamma nello stesso punto dello zombie
+        f = Flame((100, FLOOR_H + 20)) # Stessa y dello zombie
         f.move(self.arena)
 
-        self.arena.kill.assert_called_with(z)
-
-        actor.check_collision = original
+        z.hit.assert_called_with(self.arena)

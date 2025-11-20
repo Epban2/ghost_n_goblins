@@ -127,9 +127,9 @@ def main():
 
     arena = Arena((ARENA_W, ARENA_H))
     
-    arthur = Arthur((1650, 50))#vicino al buco
-    # arthur = Arthur((700, 100))#sopra la platform
-    # arthur = Arthur((1800, 50))#vicino al buco
+    arthur = Arthur((1000, 50)) # Vicino al buco
+    # arthur = Arthur((700, 100)) # Sopra la platform
+    # arthur = Arthur((1800, 50)) # Vicino al buco
 
     arena.spawn(arthur)
 
@@ -143,6 +143,7 @@ def main():
     ]
     
     arena.spawn(Platform((610, FLOOR_H - 62), (527, 30))) #Platform fluttuante
+
     [arena.spawn(Gravestone(g[0], g[1])) for g in gravestones] #List comprehension che itera le lapidi e aggiunge all'arena
 
     g2d.init_canvas((w_view, h_view), scale=2) #scale 2 aumenta lo "zoom"

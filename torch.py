@@ -31,20 +31,6 @@ class Torch(Actor):
         self._frame_counter += 1
         self._frame_counter %= len(self._frames) * self._animation_speed
 
-        # Movimento orizzontale
-        self._x += self._speed_x
-
-        # Gravità
-        self._falling_speed += TORCH_GRAVITY
-        self._y += self._falling_speed
-
-        # Rimbalzo sul terreno → genera Flame
-        if self._y >= GROUND_H:
-            arena.spawn(Flame((self._x, GROUND_H)))  # la fiamma nasce al suolo
-            arena.kill(self)
-            return
-
-
         # Collisioni
         for other in arena.actors():
             if other is self:
@@ -61,6 +47,19 @@ class Torch(Actor):
                 arena.spawn(Flame((self._x, self._y)))
                 arena.kill(self)
                 return
+
+        # Movimento orizzontale
+        self._x += self._speed_x
+
+        # Gravità
+        self._falling_speed += TORCH_GRAVITY
+        self._y += self._falling_speed
+
+        # Rimbalzo sul terreno → genera Flame
+        if self._y >= GROUND_H:
+            arena.spawn(Flame((self._x, GROUND_H)))  # la fiamma nasce al suolo
+            arena.kill(self)
+            return
 
         # Limiti arena: se esce dallo schermo la fiaccola viene rimossa
         aw, ah = arena.size()
