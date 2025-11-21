@@ -85,7 +85,7 @@ def tick():
             play_audio(audio_path)
 
     # Spawn casuale dei zombie
-    if randrange(100) == 1:
+    if randrange(50) == 1:
         spawn_x = arthur._x + randint(-200, 200)
         direction = "left" if spawn_x >= arthur._x else "right" # Direzione zombie in base alla pos di Arthur
         arena.spawn(Zombie(spawn_x, direction))
