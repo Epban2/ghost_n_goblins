@@ -103,8 +103,9 @@ class Arthur(Actor):
 
         # Pavimento
         for hole in holes:
-            if (hole[0] < self._x + self._w*2 and self._x < hole[0] + hole[1]) and self._y <= FLOOR_H + 3: #controllo se si trova in mezzo ai buchi
-                self._is_falling = True                            #h+3 è la tolleranza di y
+            if self._y <= FLOOR_H +3:
+                if (hole[0] < self._x + self._w*2 and self._x < hole[0] + hole[1]): #controllo se si trova in mezzo ai buchi
+                    self._is_falling = True                            #h+3 è la tolleranza di y
 
         if self._y >= FLOOR_H and not self._is_falling: #se non sta cadendo nel buco ma sul terreno:
             self._y = FLOOR_H
